@@ -116,7 +116,6 @@ const {
 
             // Extract the sheetId of the new sheet from the response
             const newSheetId = createResponse.data.replies[0].addSheet.properties.sheetId;
-            const rangeId = createResponse.data.replies[0].addSheet.properties.title;
 
             // Copy data from the first sheet to the new sheet
             const copyResponse = await sheets.spreadsheets.batchUpdate({
@@ -143,9 +142,9 @@ const {
               }
             });
             console.log(`Copied ${copyResponse} cells`);
-            return { newSheetId, rangeId };
+            return { newSheetId };
         }
-        async function addProfileInfo (sheetInfo) {
+        async function addProfileInfo () {
             const spreadsheetId = '1MzxHodB_dBEX9E0mAJkznP8s5FL7bZtct4h1-lBxC-0'
             const authClient = await authorize();
             const {
@@ -187,12 +186,18 @@ const {
                 console.error(err);
             }
         }
-
-        authorize().then(createNewProfile).then(addProfileInfo).catch(console.error);
-        await interaction.reply({
-            content: `Profile created for ${sheetName.capitalize()}\nYou can access your sheet at https://docs.google.com/spreadsheets/d/1MzxHodB_dBEX9E0mAJkznP8s5FL7bZtct4h1-lBxC-0/view?usp=sharing`,
-            ephemeral: false,
-        })
+        authorize()
+            .then(createNewProfile)
+            .then(({newSheetId}) => {
+                return addProfileInfo()
+                    .then(() => {
+                        return interaction.reply({
+                            content: `Profile created for ${sheetName.capitalize()}\nYou can access your sheet at https://docs.google.com/spreadsheets/d/1MzxHodB_dBEX9E0mAJkznP8s5FL7bZtct4h1-lBxC-0/view#gid=${newSheetId}`,
+                            ephemeral: false,
+                        });
+                    });
+            })
+            .catch(console.error);
 
     }
 }
