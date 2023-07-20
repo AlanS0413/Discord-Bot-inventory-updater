@@ -24,19 +24,23 @@ Object.defineProperty(String.prototype, 'capitalize', {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('add')
-    .setDescription('Adds Stock To Active Stock Sheet')
+    .setDescription('Adds Stock To Targeted Items Sheet')
     .addStringOption(option => option.setName('name').setDescription(`Product Name`).setRequired(true))
+    .addStringOption(option => option.setName('style').setDescription(`Product Style Code`).setRequired(true))
     .addStringOption(option => option.setName('price').setDescription(`Product Price`).setRequired(true))
-    .addStringOption(option => option.setName('quantity').setDescription(`Product Quantity`).setRequired(true))
     .addStringOption(option => option.setName('size').setDescription(`Product Size`).setRequired(true))
-    .addStringOption(option => option.setName('style').setDescription(`Product Style Code`).setRequired(true)),
+    .addStringOption(option => option.setName('quantity').setDescription(`Product Quantity`).setRequired(true))
+    .addStringOption(option => option.setName('pass_rate').setDescription(`Product Pass Rate`).setRequired(true))
+    ,
   async execute(interaction, client) {
 
     const name = interaction.options.getString('name').capitalize();
-    const price = interaction.options.getString("price")
-    const quantity = interaction.options.getString('quantity')
-    const size = interaction.options.getString('size')
-    const style_code = interaction.options.getString('style')
+    const style_code = interaction.options.getString('style');
+    const price = interaction.options.getString("price");
+    const size = interaction.options.getString('size');
+    const quantity = interaction.options.getString('quantity');
+    const pass_rate = interaction.options.getString('pass_rate');
+    
 
     async function loadSavedCredentialsIfExist() {
       try {
@@ -91,7 +95,7 @@ module.exports = {
       const request = {
         spreadsheetId: '1MzxHodB_dBEX9E0mAJkznP8s5FL7bZtct4h1-lBxC-0',
 
-        range: 'Active Stock!A2:E2',
+        range: `${interaction.user.username}!A2:F2`,
 
         valueInputOption: 'USER_ENTERED',
 
@@ -99,7 +103,7 @@ module.exports = {
 
         resource: {
           "majorDimension": "ROWS",
-          "values": [[String(name), String(price), String(quantity), String(size), String(style_code)]]
+          "values": [[String(name), String(style_code), String(price), String(size), String(quantity), String(pass_rate)]]
         },
 
         auth: authClient,
@@ -116,6 +120,7 @@ module.exports = {
         console.error(err);
       }
     }
+    console.log(interaction.user.username, "Username")
     appendValues()
     await interaction.reply({
       content: "Added",
