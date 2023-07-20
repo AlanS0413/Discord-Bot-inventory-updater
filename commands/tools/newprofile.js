@@ -121,18 +121,18 @@ const {
             // Copy data from the first sheet to the new sheet
             const copyResponse = await sheets.spreadsheets.batchUpdate({
               auth: auth,
-              spreadsheetId: spreadsheetId,
+              spreadsheetId: '1MzxHodB_dBEX9E0mAJkznP8s5FL7bZtct4h1-lBxC-0',
               resource: {
                 requests: [
                   {
                     copyPaste: {
                       source: {
-                        sheetId: 0,
+                        sheetId: 448158935,
                         startRowIndex: 0,
                         endRowIndex: 1
                       },
                       destination: {
-                        sheetId: newSheetId,
+                        sheetId: `${newSheetId}`,
                         startRowIndex: 0,
                         endRowIndex: 1
                       },
@@ -147,7 +147,6 @@ const {
         }
         async function addProfileInfo (sheetInfo) {
             const spreadsheetId = '1MzxHodB_dBEX9E0mAJkznP8s5FL7bZtct4h1-lBxC-0'
-            const { newSheetId, rangeId } = sheetInfo;
             const authClient = await authorize();
             const {
                 GoogleAuth
@@ -162,7 +161,7 @@ const {
             const request = {
                 spreadsheetId: spreadsheetId,
 
-                range: `${rangeId}!A:K`,
+                range: 'Subsection Credit Profiles!A:K',
 
                 valueInputOption: 'USER_ENTERED',
 
@@ -191,7 +190,7 @@ const {
 
         authorize().then(createNewProfile).then(addProfileInfo).catch(console.error);
         await interaction.reply({
-            content: `Profile created for ${sheetName.capitalize()}`,
+            content: `Profile created for ${sheetName.capitalize()}\nYou can access your sheet at https://docs.google.com/spreadsheets/d/1MzxHodB_dBEX9E0mAJkznP8s5FL7bZtct4h1-lBxC-0/view?usp=sharing`,
             ephemeral: false,
         })
 
