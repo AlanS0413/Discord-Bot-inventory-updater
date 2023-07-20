@@ -18,7 +18,6 @@ const {
     data: new SlashCommandBuilder()
       .setName('createprofile')
       .setDescription('Creates a new profile')
-      .addStringOption(option => option.setName('username').setDescription(`Discord Username`).setRequired(true))
       .addStringOption(option => option.setName('first_name').setDescription(`First Name`).setRequired(true))
       .addStringOption(option => option.setName('last_name').setDescription(`Last Name`).setRequired(true))
       .addStringOption(option => option.setName('email').setDescription(`Email Address`).setRequired(true))
@@ -67,7 +66,7 @@ const {
             }
             return client;
         }
-        const sheetName = interaction.options.getString("username").capitalize()
+        const sheetName = interaction.user.username.capitalize()
         const firstName = interaction.options.getString("first_name").capitalize()
         const lastName = interaction.options.getString("last_name").capitalize()
         const email = interaction.options.getString("email").capitalize()

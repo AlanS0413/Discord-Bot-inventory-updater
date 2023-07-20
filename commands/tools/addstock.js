@@ -91,7 +91,7 @@ module.exports = {
       const request = {
         spreadsheetId: '1MzxHodB_dBEX9E0mAJkznP8s5FL7bZtct4h1-lBxC-0',
 
-        range: 'Active Stock!A2:E2',
+        range: `${interaction.user.username}!A2:F2`,
 
         valueInputOption: 'USER_ENTERED',
 
@@ -99,7 +99,7 @@ module.exports = {
 
         resource: {
           "majorDimension": "ROWS",
-          "values": [[String(name), String(price), String(quantity), String(size), String(style_code)]]
+          "values": [[String(name), String(style_code), String(price), String(size), String(quantity), String(pass_rate)]]
         },
 
         auth: authClient,
