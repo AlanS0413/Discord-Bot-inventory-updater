@@ -2,7 +2,7 @@
   "name": "active-stock",
   "version": "1.0.0",
   "description": "",
-  "main": "C:\\Users\\Alan\\Documents\\Discord Bots\\Active Stock\\bot.js",
+  "main": "C:\\Users\\Administrator\\Documents\\Discord Bots\\Discord-Bot-Sub\\bot.js",
   "scripts": {
     "test": "node ."
   },
@@ -16,6 +16,7 @@
     "chalk": "^4.1.2",
     "discord-api-types": "^0.37.47",
     "discord.js": "^14.11.0",
+    "dotenv": "^16.3.1",
     "googleapis": "^105.0.0"
   }
 }

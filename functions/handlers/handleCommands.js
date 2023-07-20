@@ -4,14 +4,14 @@ const fs = require('fs')
 
 module.exports = (client) => {
     client.handleCommands = async () => {
-        const commandFolders = fs.readdirSync(`C:\\Users\\Alan\\Documents\\Discord Bots\\Active Stock\\commands`)
+        const commandFolders = fs.readdirSync(`C:\\Users\\Administrator\\Documents\\Discord Bots\\Discord-Bot-Sub\\commands`)
         for (const folder of commandFolders) {
             const commandFiles = fs
-                .readdirSync(`C:\\Users\\Alan\\Documents\\Discord Bots\\Active Stock\\commands\\${folder}`)
+                .readdirSync(`C:\\Users\\Administrator\\Documents\\Discord Bots\\Discord-Bot-Sub\\commands\\${folder}`)
                 .filter((file) => file.endsWith(".js"))
             const { commands, commandsArray } = client
             for (const file of commandFiles) {
-                const command = require(`C:\\Users\\Alan\\Documents\\Discord Bots\\Active Stock\\commands\\${folder}\\${file}`);
+                const command = require(`C:\\Users\\Administrator\\Documents\\Discord Bots\\Discord-Bot-Sub\\commands\\${folder}\\${file}`);
                 commands.set(command.data.name, command);
                 commandsArray.push(command.data.toJSON());
             }
