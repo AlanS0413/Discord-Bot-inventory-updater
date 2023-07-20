@@ -1,4 +1,4 @@
-const { modal } = require('C:\\Users\\Alan\\Documents\\Discord Bots\\Active Stock\\commands\\tools\\updatestock.js');
+const { modal } = require('C:\\Users\\Administrator\\Documents\\Discord Bots\\Discord-Bot-Sub\\commands\\tools\\updatestock.js');
 
 module.exports = {
     data: {

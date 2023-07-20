@@ -13,14 +13,14 @@ client.commandsArray = [];
 client.buttons = new Collection();
 client.modals = new Collection();
 
-const functionFolders = fs.readdirSync(`C:\\Users\\Alan\\Documents\\Discord Bots\\Active Stock\\functions`)
+const functionFolders = fs.readdirSync(`C:\\Users\\Administrator\\Documents\\Discord Bots\\Discord-Bot-Sub\\functions`)
 
 for (const folder of functionFolders) {
 	const functionFiles = fs
-		.readdirSync(`C:\\Users\\Alan\\Documents\\Discord Bots\\Active Stock\\functions\\${folder}`)
+		.readdirSync(`C:\\Users\\Administrator\\Documents\\Discord Bots\\Discord-Bot-Sub\\functions\\${folder}`)
 		.filter((file) => file.endsWith('.js'))
 	for(const file of functionFiles){
-		require(`C:\\Users\\Alan\\Documents\\Discord Bots\\Active Stock\\functions\\${folder}\\${file}`)(client)
+		require(`C:\\Users\\Administrator\\Documents\\Discord Bots\\Discord-Bot-Sub\\functions\\${folder}\\${file}`)(client)
 	}
 
 }
