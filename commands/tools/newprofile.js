@@ -13,6 +13,7 @@ const {
   const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
   const CREDENTIALS_PATH = path.join(process.cwd(), '/key.json');
   const TOKEN_PATH = path.join(process.cwd(), '/token.json');
+  const wait = require('node:timers/promises').setTimeout;
 
   module.exports = {
     data: new SlashCommandBuilder()
@@ -77,14 +78,14 @@ const {
         const zip = interaction.options.getString("zip")
         const country = interaction.options.getString("country").capitalize()
 
-        async function createNewProfile () {
+        async function createNewItemsProfile () {
             const {
                 GoogleAuth
               } = require('google-auth-library');
               const {
                 google
               } = require('googleapis');
-              const spreadsheetId = '1MzxHodB_dBEX9E0mAJkznP8s5FL7bZtct4h1-lBxC-0'
+              const spreadsheetId = '1KY-GojRnmlKCD1hG83YCubPbjcfy7RAEJtIESlTKFSI'
               const auth = new GoogleAuth({
                 scopes: 'https://www.googleapis.com/auth/spreadsheets',
                 credentials: JSON.parse((await fs.readFile(CREDENTIALS_PATH)).toString()),
@@ -120,13 +121,13 @@ const {
             // Copy data from the first sheet to the new sheet
             const copyResponse = await sheets.spreadsheets.batchUpdate({
               auth: auth,
-              spreadsheetId: '1MzxHodB_dBEX9E0mAJkznP8s5FL7bZtct4h1-lBxC-0',
+              spreadsheetId: '1KY-GojRnmlKCD1hG83YCubPbjcfy7RAEJtIESlTKFSI',
               resource: {
                 requests: [
                   {
                     copyPaste: {
                       source: {
-                        sheetId: 448158935,
+                        sheetId: 0,
                         startRowIndex: 0,
                         endRowIndex: 1
                       },
@@ -145,7 +146,7 @@ const {
             return { newSheetId };
         }
         async function addProfileInfo () {
-            const spreadsheetId = '1MzxHodB_dBEX9E0mAJkznP8s5FL7bZtct4h1-lBxC-0'
+            const spreadsheetId = '1FiLJA6Eec8CkMx2cV2miAL9RChBHt8w81_lUDrq4VVE'
             const authClient = await authorize();
             const {
                 GoogleAuth
@@ -160,7 +161,7 @@ const {
             const request = {
                 spreadsheetId: spreadsheetId,
 
-                range: 'Subsection Credit Profiles!A:K',
+                range: 'Profile Info!A:J',
 
                 valueInputOption: 'USER_ENTERED',
 
@@ -187,17 +188,27 @@ const {
             }
         }
         authorize()
-            .then(createNewProfile)
-            .then(({newSheetId}) => {
-                return addProfileInfo()
-                    .then(() => {
-                        return interaction.reply({
-                            content: `Profile created for ${sheetName.capitalize()}\nYou can access your sheet at https://docs.google.com/spreadsheets/d/1MzxHodB_dBEX9E0mAJkznP8s5FL7bZtct4h1-lBxC-0/view#gid=${newSheetId}`,
-                            ephemeral: false,
-                        });
-                    });
-            })
-            .catch(console.error);
-
+          .then(async () => {
+            await interaction.deferReply(); // Defer reply before calling createNewItemsProfile
+            return createNewItemsProfile();
+          })
+          .then(async ({ newSheetId }) => {
+            await addProfileInfo();
+            await wait(4000);
+            await interaction.editReply({ // Use editReply to modify the deferred reply
+              content: `Profile created for ${sheetName.capitalize()}\nYou can access your sheet at https://docs.google.com/spreadsheets/d/1KY-GojRnmlKCD1hG83YCubPbjcfy7RAEJtIESlTKFSI/view#gid=${newSheetId}`,
+              ephemeral: false,
+            });
+          })
+          .catch(async (error) => {
+            // Handle the error here
+            const errorMessage = `An error occurred: ${error.message}`;
+            const startIndex = errorMessage.indexOf('A sheet with the name');
+            const trimmedErrorMessage = errorMessage.slice(startIndex);
+            await interaction.editReply({ // Use editReply to modify the deferred reply
+              content: trimmedErrorMessage,
+              ephemeral: true,
+            });
+          });
     }
 }
