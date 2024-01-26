@@ -102,8 +102,8 @@ module.exports = {
       const {
         google
       } = require('googleapis');
-      _ranges = 'Active Stock!A2:E2'
-      spreadsheetId = '1MzxHodB_dBEX9E0mAJkznP8s5FL7bZtct4h1-lBxC-0'
+      _ranges = 'sheet_name!A2:E2'
+      spreadsheetId = 'sheet_id'
       const auth = new GoogleAuth({
         scopes: 'https://www.googleapis.com/auth/spreadsheets',
         credentials: JSON.parse((await fs.readFile(CREDENTIALS_PATH)).toString()),
