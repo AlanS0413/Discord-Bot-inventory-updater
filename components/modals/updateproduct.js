@@ -30,8 +30,8 @@ module.exports = {
 
     async function updateCellValues(spreadsheetId) {
       const sheets = google.sheets({ version: 'v4', auth });
-      const range = 'Active stock!A:E'; // Range to retrieve all columns
-      spreadsheetId = '1MzxHodB_dBEX9E0mAJkznP8s5FL7bZtct4h1-lBxC-0';
+      const range = 'sheet_name!A:E'; // Range to retrieve all columns
+      spreadsheetId = 'sheet_id';
       const { filteredValuesString } = require('../../commands/tools/updatestock.js');
 
       try {
