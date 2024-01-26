@@ -121,7 +121,7 @@ const {
             // Copy data from the first sheet to the new sheet
             const copyResponse = await sheets.spreadsheets.batchUpdate({
               auth: auth,
-              spreadsheetId: '1KY-GojRnmlKCD1hG83YCubPbjcfy7RAEJtIESlTKFSI',
+              spreadsheetId: '',
               resource: {
                 requests: [
                   {
@@ -146,7 +146,7 @@ const {
             return { newSheetId };
         }
         async function addProfileInfo () {
-            const spreadsheetId = '1FiLJA6Eec8CkMx2cV2miAL9RChBHt8w81_lUDrq4VVE'
+            const spreadsheetId = ''
             const authClient = await authorize();
             const {
                 GoogleAuth
